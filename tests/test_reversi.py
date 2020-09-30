@@ -31,6 +31,22 @@ class TestReversi(unittest.TestCase):
         self.assertEqual(self.game.check_down(27), 43)
         self.assertEqual(self.game.check_down(36), None)
 
+    def test_checkHorizontal(self):
+        self.assertEqual(self.game.check_horizontal(28), [26])
+        self.assertEqual(self.game.check_horizontal(35), [37])
+
+    def test_checkLeft(self):
+        self.assertEqual(self.game.check_left(28), 26)
+        self.assertEqual(self.game.check_left(35), None)
+        self.game.field[0] = "b"
+        self.assertEqual(self.game.check_left(0), None)
+
+    def test_checkRight(self):
+        self.assertEqual(self.game.check_right(28), None)
+        self.assertEqual(self.game.check_right(35), 37)
+        self.game.field[23] = "b"
+        self.assertEqual(self.game.check_right(23), None)
+
 
 class TestPlayer(unittest.TestCase):
     pass
