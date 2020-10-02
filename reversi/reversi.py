@@ -16,6 +16,12 @@ class Reversi():
         self.piece = " "
         self.current_player = "b"
 
+    def inverseof(self, color):
+        if color == 'b':
+            return 'w'
+        else:
+            return 'b'
+
     def turn(self):
         self.free_cells -= 1
 
