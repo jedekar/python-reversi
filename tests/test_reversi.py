@@ -48,9 +48,5 @@ class TestReversi(unittest.TestCase):
         self.assertEqual(self.game.check_right(23), None)
 
 
-class TestPlayer(unittest.TestCase):
-    pass
-
-
 if __name__ == '__main__':
     unittest.main()
