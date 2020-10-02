@@ -1,6 +1,20 @@
 FIELD_WIDTH = 8
 
 
+class InvalidCell(Exception):
+    def __init__(self, *args):
+        if args:
+            self.message = args[0]
+        else:
+            self.message = None
+
+    def __str__(self):
+        if self.message:
+            return f"InvalidCell: {self.message}"
+        else:
+            return "InvalidCell"
+
+
 class Reversi():
     def __init__(self):
         self.is_finished = False
@@ -167,3 +181,7 @@ class Reversi():
 
     def get_coverage(self, color):
         pass
+
+    def make_turn(self, cell_idx, color):
+        coverage = self.get_coverage(color)
+        self.flip_pieces(cell_idx, coverage[cell_idx])
