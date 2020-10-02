@@ -56,6 +56,13 @@ class Reversi():
 
         return result
 
+    def get_vectors(self, cell_idx, points):
+        result = []
+        for p in points:
+            result.append((p[0] - cell_idx[0], p[1] - cell_idx[1]))
+
+        return result
+
     def turn(self):
         self.free_cells -= 1
 
