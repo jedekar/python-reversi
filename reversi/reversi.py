@@ -5,11 +5,14 @@ class Reversi():
     def __init__(self):
         self.is_finished = False
         self.free_cells = 60
-        self.field = [" " for i in range(64)]
-        self.field[27] = "w"
-        self.field[28] = "b"
-        self.field[35] = "b"
-        self.field[36] = "w"
+        self.field = [[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', 'w', 'b', ' ', ' ', ' '],
+                      [' ', ' ', ' ', 'b', 'w', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
         self.piece = " "
         self.current_player = "b"
 
