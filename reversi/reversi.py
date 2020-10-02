@@ -22,6 +22,40 @@ class Reversi():
         else:
             return 'b'
 
+    def is_valid_index(self, cell_idx):
+        if (cell_idx[0] > 0 and cell_idx[0] < 8
+            and cell_idx[1] > 0 and cell_idx[1] < 8):
+            return True
+
+        return False
+
+    def get_valid_neighbours(self, cell_idx):
+        result = []
+        neighbours = [(cell_idx[0]-1, cell_idx[1]),
+                      (cell_idx[0]-1, cell_idx[1]+1),
+                      (cell_idx[0], cell_idx[1]+1),
+                      (cell_idx[0]+1, cell_idx[1]+1),
+                      (cell_idx[0]+1, cell_idx[1]),
+                      (cell_idx[0]+1, cell_idx[1]-1),
+                      (cell_idx[0], cell_idx[1]-1),
+                      (cell_idx[0]-1, cell_idx[1]-1)]
+        for n in neighbours:
+            if self.is_valid_index(n):
+                result.append(n)
+
+        return result
+
+    def get_inverse_neighbours(self, cell_idx):
+        inverse = self.inverseof(self.field[cell_idx[0]][cell_idx[1]])
+        neighbours = self.get_valid_neighbours(cell_idx)
+        result = []
+        for n in neighbours:
+            neighbour_cell = self.field[n[0]][b[1]]
+            if neighbour_cell == inverse:
+                result.append(n)
+
+        return result
+
     def turn(self):
         self.free_cells -= 1
 
