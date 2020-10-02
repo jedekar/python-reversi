@@ -46,11 +46,11 @@ class Reversi():
         return result
 
     def get_inverse_neighbours(self, cell_idx):
+        result = []
         inverse = self.inverseof(self.field[cell_idx[0]][cell_idx[1]])
         neighbours = self.get_valid_neighbours(cell_idx)
-        result = []
         for n in neighbours:
-            neighbour_cell = self.field[n[0]][b[1]]
+            neighbour_cell = self.field[n[0]][n[1]]
             if neighbour_cell == inverse:
                 result.append(n)
 
