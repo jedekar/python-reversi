@@ -114,3 +114,6 @@ class Reversi():
         else:
             self.current_player = "w"
         return self.current_player
+
+    def get_coverage(self, color):
+        pass
