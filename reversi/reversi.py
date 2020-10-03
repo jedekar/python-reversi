@@ -53,6 +53,7 @@ def get_directions(cell_idx, points):
 class Reversi:
     def __init__(self):
         self.is_finished = False
+        self.views = []
         self.field = [[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
                       [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
                       [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -147,6 +148,11 @@ class Reversi:
                               get_directions(attacked, attackers)))
         self.flip_row(attacked, directions)
 
+    def notify(self):
+        for v in self.views:
+            v.update(self)
+
     def make_turn(self, cell_idx, color):
         coverage = self.get_coverage(color)
         self.flip_pieces(cell_idx, coverage[cell_idx])
+        self.notify()
