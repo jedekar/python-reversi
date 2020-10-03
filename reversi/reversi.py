@@ -12,6 +12,8 @@ def normalize_direction(direction):
     y, x = direction
     if y > x:
         return y / y, x / y
+    if x == 0:
+        return y, x
 
     return y / x, x / x
 
