@@ -7,6 +7,13 @@ def is_valid_index(cell_idx):
 
     return False
 
+def normalize_direction(direction):
+    y, x = direction
+    if y > x:
+        return (y/y, x/y)
+
+    return (y/x, x/x)
+
 
 class InvalidCell(Exception):
     def __init__(self, *args):
@@ -126,6 +133,27 @@ class Reversi():
                     coverage[m].append(p)
 
         return coverage
+
+    def flip_row(self, cell_idx, direction):
+        color = self.field[cell_idx[0]][cell_idx[1]]
+        inverse = self.inverseof(color)
+        y = cell_idx[0] + direction[0]
+        x = cell_idx[1] + direction[1]
+        while True:
+            current = self.field[y][x]
+            if current == inverse:
+                self.field[y][x] = color
+                y += direction[0]
+                x += direction[1]
+                continue
+            break
+
+    def flip_pieces(self, attacked, attackers):
+        color = self.field[attackers[0][0]][attackers[0][1]]
+        self.field[attacked[0]][attacked[1]] = color
+        directions = list(map(normalize_direction,
+                              self.get_vectors(attacked, attackers)))
+        self.flip_row(attacked, directions)
 
     def make_turn(self, cell_idx, color):
         coverage = self.get_coverage(color)
