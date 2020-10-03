@@ -64,6 +64,19 @@ class Reversi:
                       [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
                       [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
 
+    def calculate_score(self):
+        othello = 0
+        desdemona = 0
+        for i in range(len(field)):
+            for j in range(len(field)):
+                current = self.field[i][j]
+                if current == 'b':
+                    othello += 1
+                if current == 'w':
+                    desdemona += 1
+
+        return othello, desdemona
+
     def get_inverse_neighbours(self, cell_idx):
         result = []
         inverse = inverseof(self.field[cell_idx[0]][cell_idx[1]])
