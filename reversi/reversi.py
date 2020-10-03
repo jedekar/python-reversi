@@ -103,8 +103,29 @@ class Reversi():
 
         return available_moves
 
+    def get_pieces(self, color):
+        pieces = []
+        for i in range(FIELD_WIDTH):
+            for j in range(FIELD_WIDTH):
+                current = self.field[i][j]
+                if current == color:
+                    pieces.append((i, j))
+
+        return pieces
+
     def get_coverage(self, color):
-        pass
+        pieces = self.get_pieces(color)
+        coverage = {}
+
+        for p in pieces:
+            moves = self.get_available_moves(p)
+            for m in moves:
+                if m not in coverage:
+                    coverage[m] = [p]
+                else:
+                    coverage[m].append(p)
+
+        return coverage
 
     def make_turn(self, cell_idx, color):
         coverage = self.get_coverage(color)
