@@ -89,8 +89,8 @@ class Reversi:
         return result
 
     def find_empty_cell(self, cell_idx, direction):
-        start = self.field[cell_idx[0]][cell_idx[1]]
-        inverse = inverseof(start)
+        color = self.field[cell_idx[0]][cell_idx[1]]
+        inverse = inverseof(color)
         y = cell_idx[0] + direction[0]
         x = cell_idx[1] + direction[1]
         while True:
@@ -101,7 +101,7 @@ class Reversi:
                 return None
             if current == ' ':
                 return y, x
-            if current == start:
+            if current == color:
                 y += direction[0]
                 x += direction[1]
                 continue
