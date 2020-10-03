@@ -171,3 +171,14 @@ class Reversi:
         coverage = self.get_coverage(color)
         self.flip_pieces(cell_idx, coverage[cell_idx])
         self.notify()
+
+    def restart(self):
+        self.field = [[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', 'w', 'b', ' ', ' ', ' '],
+                      [' ', ' ', ' ', 'b', 'w', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
+                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
+        self.notify()

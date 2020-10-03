@@ -5,17 +5,30 @@ class Runner():
         self.passes = 0
 
     def process_player(self, game, player, color):
+        if game.is_finished:
+            return
+
         if game.get_coverage(color):
-            cell_idx = player.get_input(game, color)
-            game.make_turn(cell_idx, color)
+            inp = player.get_input(game, color)
+            if inp == 'finish':
+                game.is_finished = True
+                return False
+            if inp == 'restart':
+                game.restart()
+                return False
+            game.make_turn(inp, color)
+            return True
         else:
             self.passes += 1
+            return True
 
     def process(self, game):
-        while True:
-            self.passes = 0
-            self.process_player(game, self.player_one, "b")
-            self.process_player(game, self.player_two, "w")
-            if self.passes == 2:
-                break
-        game.is_finished = True
+        self.passes = 0
+        turn_successful = self.process_player(game, self.player_one, "b")
+        if not turn_successful:
+            return
+        turn_successful = self.process_player(game, self.player_two, "w")
+        if not turn_successful:
+            return
+        if self.passes == 2:
+            game.is_finished = True
