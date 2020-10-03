@@ -8,7 +8,7 @@ class HumanController():
 class BotController():
     def get_input(self, game, color):
         coverage = game.get_coverage(color)
-        return random.choice(coverage.keys())
+        return random.choice(list(coverage.keys()))
 
 
 def prepare():
