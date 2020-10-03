@@ -10,12 +10,13 @@ def is_valid_index(cell_idx):
 
 def normalize_direction(direction):
     y, x = direction
-    if y > x:
-        return y / y, x / y
+    ly, lx = abs(y), abs(x)
+    if ly > lx:
+        return int(y / ly), int(x / ly)
     if x == 0:
         return y, x
 
-    return y / x, x / x
+    return int(y / lx), int(x / lx)
 
 
 def inverseof(color):
