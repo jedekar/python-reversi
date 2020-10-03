@@ -2,7 +2,7 @@ FIELD_WIDTH = 8
 
 
 def is_valid_index(cell_idx):
-    if 0 < cell_idx[0] < FIELD_WIDTH and 0 < cell_idx[1] < FIELD_WIDTH:
+    if 0 <= cell_idx[0] < FIELD_WIDTH and 0 <= cell_idx[1] < FIELD_WIDTH:
         return True
 
     return False
