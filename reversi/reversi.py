@@ -67,8 +67,8 @@ class Reversi:
     def calculate_score(self):
         othello = 0
         desdemona = 0
-        for i in range(len(field)):
-            for j in range(len(field)):
+        for i in range(len(self.field)):
+            for j in range(len(self.field)):
                 current = self.field[i][j]
                 if current == 'b':
                     othello += 1
