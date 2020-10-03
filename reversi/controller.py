@@ -44,8 +44,8 @@ class Controller():
     def process(self, game):
         while True:
             self.passes = 0
-            self.process_player(self.player_one, "b")
-            self.process_player(self.player_two, "w")
+            self.process_player(game, self.player_one, "b")
+            self.process_player(game, self.player_two, "w")
             if self.passes == 2:
                 break
         game.is_finished = True
