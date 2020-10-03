@@ -11,9 +11,9 @@ def is_valid_index(cell_idx):
 def normalize_direction(direction):
     y, x = direction
     if y > x:
-        return (y / y, x / y)
+        return y / y, x / y
 
-    return (y / x, x / x)
+    return y / x, x / x
 
 
 class InvalidCell(Exception):
@@ -62,7 +62,7 @@ def get_directions(cell_idx, points):
     return result
 
 
-class Reversi():
+class Reversi:
     def __init__(self):
         self.is_finished = False
         self.field = [[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
@@ -97,7 +97,7 @@ class Reversi():
             if current == inverse:
                 return None
             if current == ' ':
-                return (y, x)
+                return y, x
             if current == start:
                 y += direction[0]
                 x += direction[1]
