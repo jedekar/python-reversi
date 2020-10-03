@@ -1,3 +1,5 @@
+import random
+
 class HumanController():
     def get_input(self, game, color):
         pass
@@ -5,7 +7,8 @@ class HumanController():
 
 class BotController():
     def get_input(self, game, color):
-        pass
+        coverage = game.get_coverage(color)
+        return random.choice(coverage.keys())
 
 
 def prepare():
