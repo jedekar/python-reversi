@@ -34,13 +34,13 @@ def prepare():
     player_one = None
     player_two = None
     while True:
-        print('Choose your opponent')
+        print('Choose your opponent (BOT or HUMAN):')
         inp = input('> ')
-        if inp == 'bot':
+        if inp.lower() == 'bot':
             player_one = HumanController()
             player_two = BotController()
             break
-        elif inp == 'human':
+        elif inp.lower() == 'human':
             player_one = HumanController()
             player_two = HumanController()
             break
