@@ -74,7 +74,7 @@ class Reversi():
 
         return result
 
-    def get_vectors(self, cell_idx, points):
+    def get_directions(self, cell_idx, points):
         result = []
         for p in points:
             result.append((p[0] - cell_idx[0], p[1] - cell_idx[1]))
@@ -102,7 +102,7 @@ class Reversi():
     def get_available_moves(self, cell_idx):
         available_moves = []
         n = self.get_inverse_neighbours(cell_idx)
-        d = self.get_vectors(cell_idx, n)
+        d = self.get_directions(cell_idx, n)
         for i in range(len(n)):
             move = self.find_empty_cell(n[i], d[i])
             if move is not None:
@@ -152,7 +152,7 @@ class Reversi():
         color = self.field[attackers[0][0]][attackers[0][1]]
         self.field[attacked[0]][attacked[1]] = color
         directions = list(map(normalize_direction,
-                              self.get_vectors(attacked, attackers)))
+                              self.get_directions(attacked, attackers)))
         self.flip_row(attacked, directions)
 
     def make_turn(self, cell_idx, color):
