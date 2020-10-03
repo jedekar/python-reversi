@@ -1,6 +1,13 @@
 FIELD_WIDTH = 8
 
 
+def is_valid_index(cell_idx):
+    if 0 < cell_idx[0] < FIELD_WIDTH and 0 < cell_idx[1] < FIELD_WIDTH:
+        return True
+
+    return False
+
+
 class InvalidCell(Exception):
     def __init__(self, *args):
         if args:
@@ -33,13 +40,6 @@ class Reversi():
         else:
             return 'b'
 
-    def is_valid_index(self, cell_idx):
-        if (cell_idx[0] > 0 and cell_idx[0] < 8
-            and cell_idx[1] > 0 and cell_idx[1] < 8):
-            return True
-
-        return False
-
     def get_valid_neighbours(self, cell_idx):
         result = []
         neighbours = [(cell_idx[0]-1, cell_idx[1]),
@@ -51,7 +51,7 @@ class Reversi():
                       (cell_idx[0], cell_idx[1]-1),
                       (cell_idx[0]-1, cell_idx[1]-1)]
         for n in neighbours:
-            if self.is_valid_index(n):
+            if is_valid_index(n):
                 result.append(n)
 
         return result
