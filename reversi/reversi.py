@@ -147,7 +147,8 @@ class Reversi:
         self.field[attacked[0]][attacked[1]] = color
         directions = list(map(normalize_direction,
                               get_directions(attacked, attackers)))
-        self.flip_row(attacked, directions)
+        for d in directions:
+            self.flip_row(attacked, d)
 
     def notify(self):
         for v in self.views:
