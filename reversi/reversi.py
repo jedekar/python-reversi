@@ -18,20 +18,6 @@ def normalize_direction(direction):
     return y / x, x / x
 
 
-class InvalidCell(Exception):
-    def __init__(self, *args):
-        if args:
-            self.message = args[0]
-        else:
-            self.message = None
-
-    def __str__(self):
-        if self.message:
-            return f"InvalidCell: {self.message}"
-        else:
-            return "InvalidCell"
-
-
 def inverseof(color):
     if color == 'b':
         return 'w'
