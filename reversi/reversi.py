@@ -74,6 +74,35 @@ class Reversi():
 
         return result
 
+    def find_empty_cell(self, cell_idx, direction):
+        start = self.field[cell_idx[0]][cell_idx[1]]
+        inverse = self.inverseof(start)
+        y = cell_idx[0] + direction[0]
+        x = cell_idx[1] + direction[1]
+        while True:
+            if not is_valid_index((y, x)):
+                return None
+            current = self.field[y][x]
+            if current == inverse:
+                return None
+            if current == ' ':
+                return (y, x)
+            if current == start:
+                y += direction[0]
+                x += direction[1]
+                continue
+
+    def get_available_moves(self, cell_idx):
+        available_moves = []
+        n = self.get_inverse_neighbours(cell_idx)
+        d = self.get_vectors(cell_idx, n)
+        for i in range(len(n)):
+            move = self.find_empty_cell(n[i], d[i])
+            if move is not None:
+                available_moves.append(move)
+
+        return available_moves
+
     def get_coverage(self, color):
         pass
 
