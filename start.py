@@ -8,6 +8,8 @@ players = prepare()
 runner = Runner(*players)
 view = ConsoleView()
 game.views.append(view)
+print("Welcome to Reversi!",
+      "Type RESTART or FINISH during game to restart or finish respectively.")
 view.update(game)
 while not game.is_finished:
     runner.process(game)
