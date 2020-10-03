@@ -1,3 +1,13 @@
+class HumanController():
+    def get_input(self, game, color):
+        pass
+
+
+class BotController():
+    def get_input(self, game, color):
+        pass
+
+
 class Controller():
     def __init__(self, player_one, player_two):
         self.player_one = player_one
@@ -6,7 +16,7 @@ class Controller():
 
     def process_player(self, game, player, color):
         if game.get_coverage(color):
-            cell_idx = player.get_input(game)
+            cell_idx = player.get_input(game, color)
             game.make_turn(cell_idx, color)
         else:
             self.passes += 1
