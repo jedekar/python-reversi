@@ -1,7 +1,7 @@
-import random
 import pygame as pg
 
-from reversi.reversi import WHITE, BLACK
+from reversi.minimax import alphabeta
+from reversi.reversi import WHITE, BLACK, INFINITY, INVALID_CELL
 
 PASS = 'pass'
 RESTART = 'restart'
@@ -40,12 +40,10 @@ class BotController:
         self.color = color
 
     def get_input(self, game):
-        pg.time.wait(470)
-        coverage = game.get_coverage(self.color)
-        if len(coverage) != 0:
-            return random.choice(list(coverage.keys()))
-        else:
+        move = alphabeta(game, self.color, 4, -INFINITY, INFINITY).move
+        if move == INVALID_CELL:
             return PASS
+        return move
 
 
 def prepare(view):

@@ -1,4 +1,8 @@
+from copy import deepcopy
+
+INVALID_CELL = (-1, -1)
 FIELD_WIDTH = 8
+INFINITY = 1000
 BLACK = 'b'
 WHITE = 'w'
 EMPTY = ' '
@@ -162,6 +166,9 @@ class Reversi:
         self.flip_pieces(cell_idx, coverage[cell_idx])
         self.notify()
 
+    def get_available_moves_for(self, color):
+        return list(self.get_coverage(color).keys())
+
     def calculate_score(self):
         black = len(self.get_pieces(BLACK))
         white = len(self.get_pieces(WHITE))
@@ -169,9 +176,34 @@ class Reversi:
         return black, white
 
     def reset(self):
-        self.field = [[EMPTY] * FIELD_WIDTH for i in range(FIELD_WIDTH)]
+        self.field = [[EMPTY] * FIELD_WIDTH for _ in range(FIELD_WIDTH)]
         self.field[3][3] = BLACK
         self.field[4][4] = BLACK
         self.field[3][4] = WHITE
         self.field[4][3] = WHITE
         self.notify()
+
+    def sev(self, color):
+        stable = [(0, 0), (0, 7), (7, 0), (7, 7)]
+        exes = [(1, 1), (1, 6), (6, 1), (6, 6)]
+
+        moves = self.get_available_moves_for(color)
+        ev_score = len(moves)
+        for m in moves:
+            if m in stable:
+                ev_score += 1
+            if m in exes:
+                ev_score -= 1
+
+        return len(self.get_pieces(color))
+
+    def replicate_for_all(self, color):
+        result = []
+        moves = self.get_available_moves_for(color)
+        for i in range(len(moves)):
+            cp = Reversi()
+            cp.field = deepcopy(self.field)
+            result.append(cp)
+            result[i].make_turn(moves[i], color)
+
+        return result
