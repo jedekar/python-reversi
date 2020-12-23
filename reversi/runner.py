@@ -1,34 +1,25 @@
-class Runner():
-    def __init__(self, player_one, player_two):
-        self.player_one = player_one
-        self.player_two = player_two
-        self.passes = 0
+from reversi.controller import PASS, RESTART
 
-    def process_player(self, game, player, color):
-        if game.is_finished:
+
+class Runner:
+    def __init__(self, player_one, player_two):
+        self.current = player_one
+        self.next = player_two
+
+    def process_player(self, game):
+        inp = self.current.get_input(game)
+        if inp == PASS:
+            return
+        if inp == RESTART:
+            game.reset()
+            self.switch_player()
             return
 
-        if game.get_coverage(color):
-            inp = player.get_input(game, color)
-            if inp == 'finish':
-                game.is_finished = True
-                return False
-            if inp == 'restart':
-                game.restart()
-                return False
-            game.make_turn(inp, color)
-            return True
-        else:
-            self.passes += 1
-            return True
+        game.make_turn(inp, self.current.color)
+
+    def switch_player(self):
+        self.current, self.next = self.next, self.current
 
     def process(self, game):
-        self.passes = 0
-        turn_successful = self.process_player(game, self.player_one, "b")
-        if not turn_successful:
-            return
-        turn_successful = self.process_player(game, self.player_two, "w")
-        if not turn_successful:
-            return
-        if self.passes == 2:
-            game.is_finished = True
+        self.process_player(game)
+        self.switch_player()

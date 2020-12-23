@@ -1,50 +1,52 @@
 import random
+import pygame as pg
+
+from reversi.reversi import WHITE, BLACK
+
+PASS = 'pass'
+RESTART = 'restart'
 
 LETTERS = 'abcdefgh'
 NUMBERS = '12345678'
 
 
-def convert_to_index(inp):
-    y = LETTERS.find(inp[0])
-    x = NUMBERS.find(inp[1])
-    return y, x
+class HumanController:
+    def __init__(self, color, view):
+        self.color = color
+        self.view = view
 
-
-class HumanController():
-    def get_input(self, game, color):
-        coverage = game.get_coverage(color)
+    def get_input(self, game):
+        coverage = game.get_coverage(self.color)
         while True:
-            inp = input('> ')
-            if inp.lower() == 'restart' or inp.lower() == 'finish':
-                return inp.lower()
-            if len(inp) < 3 and inp[0] in LETTERS and inp[1] in NUMBERS:
-                cell_idx = convert_to_index(inp)
-                if cell_idx in list(coverage.keys()):
-                    return cell_idx
-            print(f'Illegal command: {inp}')
+            events = pg.event.get()
+
+            for e in events:
+                if e.type == pg.MOUSEBUTTONDOWN:
+                    move = self.view.pos_to_cell_idx(e.pos)
+                    if move in coverage.keys():
+                        return move
+                elif e.type == pg.QUIT:
+                    quit(0)
+                elif e.type == pg.KEYDOWN and e.key == pg.K_ESCAPE:
+                    quit(0)
+                elif e.type == pg.KEYDOWN and e.key == pg.K_r:
+                    return RESTART
+                elif e.type == pg.KEYDOWN and e.key == pg.K_SPACE and len(coverage) == 0:
+                    return PASS
 
 
-class BotController():
-    def get_input(self, game, color):
-        coverage = game.get_coverage(color)
-        return random.choice(list(coverage.keys()))
+class BotController:
+    def __init__(self, color):
+        self.color = color
 
-
-def prepare():
-    player_one = None
-    player_two = None
-    while True:
-        print('Choose your opponent (BOT or HUMAN):')
-        inp = input('> ')
-        if inp.lower() == 'bot':
-            player_one = HumanController()
-            player_two = BotController()
-            break
-        elif inp.lower() == 'human':
-            player_one = HumanController()
-            player_two = HumanController()
-            break
+    def get_input(self, game):
+        pg.time.wait(470)
+        coverage = game.get_coverage(self.color)
+        if len(coverage) != 0:
+            return random.choice(list(coverage.keys()))
         else:
-            print(f'Unknown command: {inp}')
+            return PASS
 
-    return player_one, player_two
+
+def prepare(view):
+    return HumanController(BLACK, view), BotController(WHITE)

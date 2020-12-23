@@ -1,4 +1,7 @@
 FIELD_WIDTH = 8
+BLACK = 'b'
+WHITE = 'w'
+EMPTY = ' '
 
 
 def is_valid_index(cell_idx):
@@ -20,10 +23,7 @@ def normalize_direction(direction):
 
 
 def inverseof(color):
-    if color == 'b':
-        return 'w'
-    else:
-        return 'b'
+    return WHITE if color == BLACK else BLACK
 
 
 def get_valid_neighbours(cell_idx):
@@ -53,29 +53,12 @@ def get_directions(cell_idx, points):
 
 class Reversi:
     def __init__(self):
-        self.is_finished = False
         self.views = []
-        self.field = [[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', 'w', 'b', ' ', ' ', ' '],
-                      [' ', ' ', ' ', 'b', 'w', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
-
-    def calculate_score(self):
-        othello = 0
-        desdemona = 0
-        for i in range(len(self.field)):
-            for j in range(len(self.field)):
-                current = self.field[i][j]
-                if current == 'b':
-                    othello += 1
-                if current == 'w':
-                    desdemona += 1
-
-        return othello, desdemona
+        self.field = [[EMPTY] * FIELD_WIDTH for i in range(FIELD_WIDTH)]
+        self.field[3][3] = BLACK
+        self.field[4][4] = BLACK
+        self.field[3][4] = WHITE
+        self.field[4][3] = WHITE
 
     def get_inverse_neighbours(self, cell_idx):
         result = []
@@ -167,18 +150,28 @@ class Reversi:
         for v in self.views:
             v.update(self)
 
+    def is_finished(self):
+        black_coverage = self.get_coverage(BLACK)
+        white_coverage = self.get_coverage(WHITE)
+        if len(black_coverage) == 0 and len(white_coverage) == 0:
+            return True
+        return False
+
     def make_turn(self, cell_idx, color):
         coverage = self.get_coverage(color)
         self.flip_pieces(cell_idx, coverage[cell_idx])
         self.notify()
 
-    def restart(self):
-        self.field = [[' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', 'w', 'b', ' ', ' ', ' '],
-                      [' ', ' ', ' ', 'b', 'w', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '],
-                      [' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ']]
+    def calculate_score(self):
+        black = len(self.get_pieces(BLACK))
+        white = len(self.get_pieces(WHITE))
+
+        return black, white
+
+    def reset(self):
+        self.field = [[EMPTY] * FIELD_WIDTH for i in range(FIELD_WIDTH)]
+        self.field[3][3] = BLACK
+        self.field[4][4] = BLACK
+        self.field[3][4] = WHITE
+        self.field[4][3] = WHITE
         self.notify()
